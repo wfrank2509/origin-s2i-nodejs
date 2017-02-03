@@ -10,9 +10,9 @@ IMAGE_NAME=${IMAGE_NAME-ryanj/centos7-s2i-nodejs-candidate}
 NODE_VERSION=${NODE_VERSION}
 IMAGE_TAG=${IMAGE_NAME}":"${NODE_VERSION};
 
-test_dir="$(readlink -zf $(dirname "${BASH_SOURCE[0]}"))"
-image_dir=$(readlink -zf ${test_dir}/..)
-cid_file=$(mktemp -u --suffix=.cid)
+test_dir=`dirname ${BASH_SOURCE[0]}`
+image_dir="${test_dir}/.."
+cid_file=`date +%s`$$.cid
 
 # Since we built the candidate image locally, we don't want S2I attempt to pull
 # it from Docker hub
@@ -34,6 +34,7 @@ container_ip() {
 }
 
 run_s2i_build() {
+  echo "Running s2i build ${s2i_args} ${test_dir} ${IMAGE_TAG} ${IMAGE_NAME}"
   s2i build ${s2i_args} file://${test_dir}/test-app ${IMAGE_TAG} ${IMAGE_NAME}-testapp
 }
 
@@ -160,9 +161,9 @@ test_node_env_and_environment_variables() {
   local node_env_prod="production"
   local node_env_dev="development"
   echo 'Validating default NODE_ENV, verifying ability to configure using Env Vars...'
- 
+
   result=0
- 
+
   if [ "$default_node_env" != $(get_default_node_env_from_container) ]; then
     echo "ERROR default NODE_ENV should be '$default_node_env'"
     result=1
@@ -177,7 +178,7 @@ test_node_env_and_environment_variables() {
     echo "ERROR: NODE_ENV unsuccessfully set to '$node_env_dev' mode"
     result=1
   fi
-  
+
   return $result
 }
 
