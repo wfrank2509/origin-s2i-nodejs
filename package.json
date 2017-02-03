@@ -1,11 +1,11 @@
 {
   "name": "centos7-nodejs",
-  "homepage": "https://github.com/ryanj/origin-s2i-nodejs",
+  "homepage": "https://github.com/bucharest-gold/origin-s2i-nodejs",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ryanj/origin-s2i-nodejs.git"
+    "url": "https://github.com/bucharest-gold/origin-s2i-nodejs.git"
   },
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "NodeJS images for OpenShift / Kubernetes, based on CentOS",
   "dependencies": {
     "request": "^2.72.0",
@@ -20,7 +20,9 @@
     "docker",
     "ansible"
   ],
-  "author": "ryanj",
+  "contributors": [
+    "Ryan Jarvinen (http://ryanjarvinen.com)",
+    "Lance Ball <lball@redhat.com> (http://lanceball.com)"],
   "scripts": {
     "start": "make all",
     "rebuild": "hack/rebuild.sh",

@@ -13,7 +13,7 @@ OS=${1-$OS}
 VERSION=${2-$VERSION}
 
 DOCKERFILE="Dockerfile"
-if [[ -v ONBUILD ]]; then
+if [[ ! -z "${ONBUILD}" ]]; then
   BASE_IMAGE_NAME="${ONBUILD_IMAGE_NAME}"
   DOCKERFILE+=".onbuild"
 fi
@@ -25,7 +25,7 @@ trap "rm -f ${DOCKERFILE}.${version}" SIGINT SIGQUIT EXIT
 function docker_build_with_version {
   cp ${DOCKERFILE} "${DOCKERFILE}.${version}"
   git_version=$(git rev-parse HEAD)
-  sed -i "${DOCKERFILE}.${version}" -e "s/NODE_VERSION *= *.*/NODE_VERSION=${version} \\\/"
+  sed -i -e "s/NODE_VERSION *= *.*/NODE_VERSION=${version} \\\/"  "${DOCKERFILE}.${version}"
   echo "LABEL io.origin.builder-version=\"${git_version}\"" >> "${DOCKERFILE}.${version}"
   docker build -t ${IMAGE_NAME}:${version} -f "${DOCKERFILE}.${version}" .
   if [[ "${SKIP_SQUASH}" != "1" ]]; then
@@ -39,9 +39,9 @@ function docker_build_with_version {
 function squash {
   # FIXME: We have to use the exact versions here to avoid Docker client
   #        compatibility issues
-  easy_install -q --user docker_py==1.6.0 docker-squash==1.0.0rc6
+  easy_install -v --user docker_py==1.6.0 docker-squash==1.0.5
   base=$(awk '/^FROM/{print $2}' $1)
-  ${HOME}/.local/bin/docker-squash -f $base ${IMAGE_NAME}:${version}
+  docker-squash -f $base ${IMAGE_NAME}:${version}
 }
 
 # Specify a VERSION variable to build a specific nodejs.org release
@@ -51,7 +51,7 @@ versions=${VERSION:-$VERSIONS}
 for version in ${versions}; do
   IMAGE_NAME="${NAMESPACE}/${OS}-${BASE_IMAGE_NAME}"
 
-  if [[ -v TEST_MODE ]]; then
+  if [[ ! -z "${TEST_MODE}" ]]; then
     IMAGE_NAME+="-candidate"
   fi
 
@@ -64,7 +64,7 @@ for version in ${versions}; do
     docker_build_with_version Dockerfile
   fi
 
-  if [[ -v TEST_MODE ]]; then
+  if [[ ! -z "${TEST_MODE}" ]]; then
     IMAGE_NAME=${IMAGE_NAME} NODE_VERSION=${version} test/run
 
     if [[ $? -eq 0 ]] && [[ "${TAG_ON_SUCCESS}" == "true" ]]; then
