@@ -139,7 +139,7 @@ sudo apt install python-pip
 ### 3) [docker-squash](https://github.com/goldmann/docker-squash) required
 
 ```bash
-pip3 install docker-squash
+pip install docker-squash
 cd ; echo 'PATH="$HOME/.local/bin/:$PATH"' >> .bashrc
 ```
 
