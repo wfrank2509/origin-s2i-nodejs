@@ -130,26 +130,20 @@ cloudstrap/origin-s2i-nodejs        origin-s2i-nodejs   0                    [OK
 redhatworkshops/nodejs-origin-s2i
 ```
 
-### 2) python required - using python 3 here
+### 2) python-pip required
 
 ```bash
-cd /usr/bin ; sudo rm python ; sudo ln -s python3 python
+sudo apt install python-pip
 ```
 
-### 3) python3-pip required
-
-```bash
-sudo apt install python3-pip
-```
-
-### 4) [docker-squash](https://github.com/goldmann/docker-squash) required
+### 3) [docker-squash](https://github.com/goldmann/docker-squash) required
 
 ```bash
 pip3 install docker-squash
 cd ; echo 'PATH="$HOME/.local/bin/:$PATH"' >> .bashrc
 ```
 
-### 5) s2i command required
+### 4) s2i command required
 
 ```bash
 wget https://github.com/openshift/source-to-image/releases/download/v1.1.4/source-to-image-1.1.4-870b273-linux-amd64.tar.gz
@@ -158,7 +152,7 @@ mv s2i .local/bin/ ; mv sti .local/bin/
 source .bashrc
 ```
 
-### 6) Run `make test`
+### 5) Run `make test`
 
 ```bash
 git clone git@github.com:bucharest-gold/origin-s2i-nodejs.git
