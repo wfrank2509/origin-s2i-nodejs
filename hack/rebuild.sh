@@ -1,8 +1,8 @@
 #!/bin/bash -e
 
-LAST_RELEASE="$(grep 'NODE_VERSION=' nodejs.org/Dockerfile | sed -e "s/ *NODE_VERSION=\([^ ]*\) \\\/\1/")"
+LAST_RELEASE="$(grep 'NODE_VERSION=' nodejs.org/Dockerfile | cut -d'=' -f2 | cut -d' ' -f2)"
 LAST_RELEASES="$VERSIONS"
-LATEST_RELEASE="$(./hack/latest.js | cut -f5 -d' ')"
+LATEST_RELEASE="$(./hack/latest.js | cut -f4 -d' ')"
 LATEST_RELEASES="$(node ./hack/latest.js)"
 NUMS="$(seq 1 `echo $LAST_RELEASES | wc -w`)"
 #Files with hard-coded version strings:
@@ -14,8 +14,14 @@ LATEST_UPDATES_NEEDED="hack/build.sh \
   nodejs.org/Dockerfile \
   nodejs.org/Dockerfile.onbuild"
 
+echo "Latest release      : $LATEST_RELEASE"
+echo "Last release        : $LAST_RELEASE"
+echo
+echo "All latest releases : $LATEST_RELEASES"
+echo "All last releases   : $LAST_RELEASES"
+
 if [ "${LAST_RELEASES}" != "${LATEST_RELEASES}" ] ; then
-  echo "New NodeJS releases available!: ${LATEST_RELEASES}"
+  echo "New NodeJS releases available!"
   sed -i -e "s/VERSIONS.*/VERSIONS = $LATEST_RELEASES/" Makefile
 
   for release in $NUMS ; do
@@ -36,7 +42,6 @@ if [ "${LAST_RELEASES}" != "${LATEST_RELEASES}" ] ; then
   fi
 
   docker pull openshift/base-centos7
-
 else
   echo "No new NodeJS releases found"
 fi
