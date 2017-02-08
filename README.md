@@ -156,7 +156,7 @@ source .bashrc
 
 ```bash
 git clone git@github.com:bucharest-gold/origin-s2i-nodejs.git
-origin-s2i-nodejs ; git checkout origin/lance-macos
+cd origin-s2i-nodejs
 make test
 ```
 
