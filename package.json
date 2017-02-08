@@ -7,12 +7,11 @@
   },
   "version": "0.0.3",
   "description": "NodeJS images for OpenShift / Kubernetes, based on CentOS",
-  "dependencies": {
-    "request": "^2.72.0",
-    "semver": "^5.1.0"
-  },
   "devDependencies": {
-    "tap": "^5.7.0"
+    "semver": "^5.1.0",
+    "roi": "~0.14.1",
+    "tap": "^5.7.0",
+    "underscore": "~1.8.3"
   },
   "keywords": [
     "openshift",
@@ -22,10 +21,11 @@
   ],
   "contributors": [
     "Ryan Jarvinen (http://ryanjarvinen.com)",
-    "Lance Ball <lball@redhat.com> (http://lanceball.com)"],
+    "Lance Ball <lball@redhat.com> (http://lanceball.com)"
+  ],
   "scripts": {
     "start": "make all",
-    "rebuild": "hack/rebuild.sh",
+    "rebuild": "hack/rebuild.js",
     "tag": "hack/tag.sh",
     "pub": "hack/publish.sh",
     "build": "make",

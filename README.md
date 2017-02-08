@@ -117,7 +117,6 @@ sudo systemctl status docker
    Active: active (running) since Ter 2017-02-07 15:19:21 BRT; 4min 35s ago
      Docs: https://docs.docker.com
  Main PID: 18126 (dockerd)
-... 
 ```
 
 #### Reboot
