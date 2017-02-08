@@ -7,3 +7,5 @@ before_script:
   - sudo mv s2i /usr/bin
 script:
   - make test
+notifications:
+  irc: "chat.freenode.net#brass-monkey"
