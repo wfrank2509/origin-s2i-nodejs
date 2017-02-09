@@ -34,8 +34,8 @@
     "test": "make test",
     "clean": "docker rmi -f $(docker images |tr -s ' ' | grep -e 'centos7-s2i-nodejs\\|centos7-s2i-nodejs-candidate\\|centos7-nodejs' | cut -d' ' -s -f3)"
   },
-  "license": "MIT",
+  "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/2015-Middleware-Keynote/demo-ansible/issues"
+    "url": "https://github.com/bucharest-gold/origin-s2i-nodejs/issues"
   }
 }
