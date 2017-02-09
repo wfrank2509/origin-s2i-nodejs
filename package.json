@@ -8,16 +8,18 @@
   "version": "0.0.3",
   "description": "NodeJS images for OpenShift / Kubernetes, based on CentOS",
   "devDependencies": {
-    "semver": "^5.1.0",
+    "semver": "~5.1.0",
     "roi": "~0.14.1",
-    "tap": "^5.7.0",
     "underscore": "~1.8.3"
   },
   "keywords": [
     "openshift",
     "aws",
     "docker",
-    "ansible"
+    "ansible",
+    "kube",
+    "kubernetes",
+    "centos"
   ],
   "contributors": [
     "Ryan Jarvinen (http://ryanjarvinen.com)",
@@ -25,7 +27,7 @@
   ],
   "scripts": {
     "start": "make all",
-    "rebuild": "hack/rebuild.js",
+    "rebuild": "node hack/rebuild.js",
     "tag": "hack/tag.sh",
     "pub": "hack/publish.sh",
     "build": "make",
