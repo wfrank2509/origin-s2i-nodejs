@@ -21,6 +21,7 @@ console.log('Current version', current);
 roi.get({ endpoint: 'https://nodejs.org/dist/index.json' })
    .then(response => findLatest(response.body))
    .then(writeFiles)
+   .then(updateReadme)
    .then(pullBase)
    .catch(console.error);
 
@@ -37,6 +38,41 @@ function pullBase () {
         resolve('done');
       }
     })
+  });
+}
+
+function updateReadme (versions) {
+  return new Promise((resolve, reject) => {
+    fs.readFile('README.md', 'utf-8', (err, txt) => {
+      if (err) return reject(err);
+
+      // get a list of our images mapped to all of their tags
+      const newVersions = _.reduce(versions.spec.tags, (result, tag) => {
+        if (tag.from.name.indexOf(':') === -1) {
+          const labels = result[tag.from.name] || [];
+          labels.push(tag.name);
+          result[tag.from.name] = labels;
+        }
+        return result;
+      }, {});
+
+      // format the result as a friendly string
+      let versionString = '<!-- versions.start -->\n';
+      _.each(_.keys(newVersions).reverse(), (ver) => {
+        versionString += `* **\`${ver}\`**: (${ver}, ${newVersions[ver].join(', ')})\n`;
+      });
+      versionString += '<!-- versions.end -->'
+
+      // Replace the existing version string in README.md
+      const re = new RegExp(
+        /<!-- versions\.start -->\s(\*.+\s)+<!-- versions\.end -->/mg);
+      fs.writeFile('README.md',
+        txt.replace(re, versionString), 'utf-8', (err) => {
+          if (err) return reject(err);
+          console.log(versionString);
+          resolve(versionString);
+      });
+    });
   });
 }
 
@@ -63,13 +99,12 @@ function writeFiles (releases) {
       console.log('Rewriting', file, name, '...');
       const data = imageStream(releases, name);
       fs.writeFile(file, JSON.stringify(data, null, 2),
-        (err) => err ? reject(err) : resolve());
+        (err) => err ? reject(err) : resolve(data));
     });
   });
 }
 
 function imageStream (releases, name) {
-  console.log('processing', name);
   const data = {
         kind: 'ImageStream',
         apiVersion: 'v1',
