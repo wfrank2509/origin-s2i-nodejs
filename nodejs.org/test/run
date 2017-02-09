@@ -67,6 +67,7 @@ cleanup() {
     docker rmi -f ${IMAGE_NAME}-testapp
   fi
   rm -rf ${test_dir}/test-app/.git
+  rm *.cid
 }
 
 check_result() {
