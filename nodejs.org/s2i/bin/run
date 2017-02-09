@@ -3,9 +3,9 @@
 set -e
 
 # nss_wrapper:
-# if [ -e "/opt/app-root/etc/generate_container_user" ]; then
-#   source /opt/app-root/etc/generate_container_user
-# fi
+if [ -e "/opt/app-root/etc/generate_container_user" ]; then
+  source /opt/app-root/etc/generate_container_user
+fi
 
 # Runs the nodejs application server.
 run_node() {
