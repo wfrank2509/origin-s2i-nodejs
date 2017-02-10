@@ -1,32 +1,21 @@
 {
   "name": "node-echo",
   "version": "0.0.1",
-  "description": "node-echo",
   "main": "server.js",
-  "dependencies": {
-  },
-  "devDependencies": {
-    "nodemon": "*"
-  },
-  "engine": {
-    "node": "*",
-    "npm": "*"
-  },
+  "author": "Helio Frota",
+  "license": "MIT",
   "scripts": {
+    "lint": "eslint test/*.js index.js",
     "dev": "nodemon --ignore node_modules/ server.js",
     "start": "node server.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "http://github.com/bettiolo/node-echo.git"
-  },
-  "keywords": [
-    "Echo"
-  ],
-  "author": "Marco Bettiolo <marco@bettiolo.it>",
-  "license": "",
-  "bugs": {
-    "url": "http://github.com/bettiolo/node-echo/issues"
-  },
-  "homepage": "http://apilb.com"
+  "devDependencies": {
+    "eslint": "*",
+    "eslint-config-semistandard": "*",
+    "eslint-config-standard": "*",
+    "eslint-plugin-promise": "*",
+    "eslint-plugin-react": "*",
+    "eslint-plugin-standard": "*",
+    "nodemon": "*"
+  }
 }
