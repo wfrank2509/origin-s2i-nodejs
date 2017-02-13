@@ -67,7 +67,11 @@ cleanup() {
     docker rmi -f ${IMAGE_NAME}-testapp
   fi
   rm -rf ${test_dir}/test-app/.git
-  rm *.cid
+  cids=`ls -1 *.cid 2>/dev/null | wc -l`
+  if [ $cids != 0 ]
+  then
+    rm *.cid
+  fi
 }
 
 check_result() {
