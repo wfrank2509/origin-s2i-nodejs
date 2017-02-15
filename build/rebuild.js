@@ -1,4 +1,5 @@
 const fs = require('fs');
+const path = require('path');
 const spawn = require('child_process').spawn;
 
 const roi = require('roi');
@@ -92,6 +93,8 @@ function findLatest (json) {
 function writeFiles (releases) {
   // TODO: Only do this if there are any changes
   return new Promise((resolve, reject) => {
+    fs.writeFile('releases.json', JSON.stringify(releases, null, 2),
+      (err) => err ? reject(err) : undefined);
     _.each(files, (f) => {
       const [file, name] = f.split(':');
       console.log('Rewriting', file, name, '...');

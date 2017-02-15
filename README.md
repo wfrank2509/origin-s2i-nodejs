@@ -4,8 +4,9 @@ Origin S2I NodeJS
 This repository contains sources for an [s2i](https://github.com/openshift/source-to-image) builder image, based on CentOS7 and Node.js releases from nodejs.org.
 
 If you are interested in developing against SCL-based nodejs releases, try [sti-nodejs](https://github.com/openshift/sti-nodejs).
-
+<!--
 [![docker hub stats](http://dockeri.co/image/bucharestgold/centos7-s2i-nodejs)](https://hub.docker.com/r/bucharestgold/centos7-s2i-nodejs/)
+-->
 
 <!--
 [![](https://images.microbadger.com/badges/image/bucharestgold/centos7-s2i-nodejs.svg)](https://microbadger.com/images/bucharestgold/centos7-s2i-nodejs "Get your own image badge on microbadger.com")
@@ -16,7 +17,7 @@ official [OpenShift Documentation](https://docs.openshift.org/latest/using_image
 
 Versions
 ---------------
-[Node.JS versions currently provided are](https://hub.docker.com/r/ryanj/centos7-s2i-nodejs/tags/):
+[Node.JS versions currently provided are](https://hub.docker.com/r/bucharestgold/centos7-s2i-nodejs/tags/):
 
 <!-- versions.start -->
 * **`7.5.0`**: (7.5.0, 7, 7.5, current, latest)
@@ -43,6 +44,39 @@ Or, to run the latest `lts` release:
     oc new-app bucharestgold/centos7-s2i-nodejs:lts~http://github.com/bucharest-gold/http-base
 
 You can try using any of the available tagged Node.js releases, and your own repo sources - as long as your application source will init correctly with `npm start`, and listen on port 8080.
+
+Environment variables
+---------------------
+
+Application developers can use the following environment variables to configure the runtime behavior of this image:
+
+NAME        | Description
+------------|-------------
+NPM_RUN     | Select an alternate / custom runtime mode, defined in your `package.json` file's [`scripts`](https://docs.npmjs.com/misc/scripts) section (default: npm run "start")
+NODE_ENV    | NodeJS runtime mode (default: "production")
+HTTP_PROXY  | use an npm proxy during assembly
+HTTPS_PROXY | use an npm proxy during assembly
+
+One way to define a set of environment variables is to include them as key value pairs in your repo's `.s2i/environment` file.
+
+Example: DATABASE_USER=sampleUser
+
+#### NOTE: Define your own "`DEV_MODE`":
+
+The following `package.json` example includes a `scripts.dev` entry.  You can define your own custom [`NPM_RUN`](https://docs.npmjs.com/cli/run-script) scripts in your application's `package.json` file.
+
+### Using Docker's exec
+
+To change your source code in a running container, use Docker's [exec](http://docker.io) command:
+```
+$ docker exec -it <CONTAINER_ID> /bin/bash
+```
+
+After you [Docker exec](http://docker.io) into the running container, your current directory is set to `/opt/app-root/src`, where the source code for your application is located.
+
+### Using OpenShift's rsync
+
+If you have deployed the container to OpenShift, you can use [oc rsync](https://docs.openshift.org/latest/dev_guide/copy_files_to_container.html) to copy local files to a remote container running in an OpenShift pod.
 
 Builds
 ------
@@ -95,7 +129,7 @@ You can also build a specific release, or try building the alternate `ONBUILD` v
 
     $ ONBUILD=true make VERSION=6.3.1
 
-The `ONBUILD` base images are available at https://hub.docker.com/r/ryanj/centos7-nodejs
+The `ONBUILD` base images are available at https://hub.docker.com/r/bucharestgold/centos7-nodejs
 
 [Instructions for build own builder images on Ubuntu 1604](docs/ubuntu-build.md)
 
@@ -115,17 +149,62 @@ Users can choose between testing a Node.JS test application based on a RHEL or C
 
 Repository organization
 ------------------------
-* **`nodejs.org/`**
+* **`Dockerfile`**
 
-    Dockerfile and scripts to build container images.
+    CentOS based Dockerfile with 64bit nodejs binaries from nodejs.org.
+    Used to create the `s2i` base images.
 
-* **`hack/`**
+* **`Dockerfile.onbuild`**
+
+    CentOS based Dockerfile with 64bit nodejs binaries from nodejs.org.
+
+* **`build/`**
 
     Folder containing scripts which are responsible for the build and test actions performed by the `Makefile`.
 
 * ** `image-streams.json` **
 
     Use this file to add these runtimes to OpenShift's web-based **"Add to Project"** workflow.
+
+* ** `releases.json` **
+
+    A JSON file containing metadata about the releases currently supported.
+
+* **`s2i`**
+
+    This folder contains scripts that are run by [`s2i`](https://github.com/openshift/source-to-image):
+
+    *   **`assemble`**
+
+        Used to install the sources into the location where the application
+        will be run and prepare the application for deployment (eg. installing
+        modules using npm, etc.)
+
+    *   **`run`**
+
+        This script is responsible for running the application, by using the
+        application web server.
+
+    *   **`usage`***
+
+        This script prints the usage of this image.
+
+* **`contrib/`**
+
+    This folder contains a file with commonly used modules.
+
+* **`test/`**
+
+    This folder contains the [`s2i`](https://github.com/openshift/source-to-image)
+    test framework with simple Node.JS echo server.
+
+    * **`test-app/`**
+
+        A simple Node.JS echo server used for testing purposes by the [S2I](https://github.com/openshift/source-to-image) test framework.
+
+    * **`run`**
+
+        This script runs the [S2I](https://github.com/openshift/source-to-image) test framework.
 
 * ** `Makefile` **
 

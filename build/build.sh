@@ -18,20 +18,16 @@ if [[ ! -z "${ONBUILD}" ]]; then
   DOCKERFILE+=".onbuild"
 fi
 
-# Cleanup the temporary Dockerfile created by docker build with version
-trap "rm -f ${DOCKERFILE}.${version}" SIGINT SIGQUIT EXIT
-
 # Perform docker build but append the LABEL with GIT commit id at the end
 function docker_build_with_version {
-  cp ${DOCKERFILE} "${DOCKERFILE}.${version}"
   git_version=$(git rev-parse HEAD)
-  sed -i -e "s/NODE_VERSION *= *.*/NODE_VERSION=${version} \\\/"  "${DOCKERFILE}.${version}"
-  echo "LABEL io.origin.builder-version=\"${git_version}\"" >> "${DOCKERFILE}.${version}"
-  docker build -t ${IMAGE_NAME}:${version} -f "${DOCKERFILE}.${version}" .
+  BUILDFILE="target/v${version}/${DOCKERFILE}"
+
+  echo "LABEL io.origin.builder-version=\"${git_version}\"" >> ${BUILDFILE}
+  docker build -t ${IMAGE_NAME}:${version} -f "${BUILDFILE}" .
   if [[ "${SKIP_SQUASH}" != "1" ]]; then
-    squash "${DOCKERFILE}.${version}"
+    squash "${BUILDFILE}"
   fi
-  rm -f "${DOCKERFILE}.${version}"
 }
 
 # Install the docker squashing tool[1] and squash the result image
@@ -57,7 +53,7 @@ for version in ${versions}; do
 
   echo "-> Building ${IMAGE_NAME}:${version} ..."
 
-  pushd "nodejs.org" > /dev/null
+  # pushd ${BUILD_DIR} > /dev/null
   if [ "$OS" == "fedora" -o "$OS" == "fedora-candidate" ]; then
     docker_build_with_version Dockerfile.fedora
   else
@@ -65,7 +61,7 @@ for version in ${versions}; do
   fi
 
   if [[ ! -z "${TEST_MODE}" ]]; then
-    IMAGE_NAME=${IMAGE_NAME} NODE_VERSION=${version} test/run
+    IMAGE_NAME=${IMAGE_NAME} NODE_VERSION=${version} ./test/run
 
     if [[ $? -eq 0 ]] && [[ "${TAG_ON_SUCCESS}" == "true" ]]; then
       echo "-> Re-tagging ${IMAGE_NAME}:${version} image to ${IMAGE_NAME%"-candidate"}:${version}"
@@ -78,5 +74,5 @@ for version in ${versions}; do
     fi
   fi
 
-  popd > /dev/null
+  # popd > /dev/null
 done

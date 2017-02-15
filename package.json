@@ -8,8 +8,8 @@
   "version": "0.1.0",
   "description": "NodeJS images for OpenShift / Kubernetes, based on CentOS",
   "devDependencies": {
-    "semver": "~5.1.0",
     "roi": "~0.14.1",
+    "semver": "~5.1.0",
     "underscore": "~1.8.3"
   },
   "keywords": [
@@ -27,12 +27,10 @@
   ],
   "scripts": {
     "start": "make all",
-    "rebuild": "node hack/rebuild.js",
-    "tag": "hack/tag.sh",
-    "pub": "hack/publish.sh",
+    "tag": "build/tag.sh",
+    "pub": "build/publish.sh",
     "build": "make",
-    "test": "make test",
-    "clean": "docker rmi -f $(docker images |tr -s ' ' | grep -e 'centos7-s2i-nodejs\\|centos7-s2i-nodejs-candidate\\|centos7-nodejs' | cut -d' ' -s -f3)"
+    "test": "make test"
   },
   "license": "Apache-2.0",
   "bugs": {
