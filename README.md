@@ -3,7 +3,7 @@ Origin S2I NodeJS
 
 This repository contains sources for an [s2i](https://github.com/openshift/source-to-image) builder image, based on CentOS7 and Node.js releases from nodejs.org.
 
-If you are interested in developing against SCL-based nodejs releases, try [sti-nodejs](https://github.com/openshift/sti-nodejs).
+If you are interested in developing against SCL-based Node.js releases, try [sti-nodejs](https://github.com/openshift/sti-nodejs).
 <!--
 [![docker hub stats](http://dockeri.co/image/bucharestgold/centos7-s2i-nodejs)](https://hub.docker.com/r/bucharestgold/centos7-s2i-nodejs/)
 -->
@@ -17,7 +17,7 @@ official [OpenShift Documentation](https://docs.openshift.org/latest/using_image
 
 Versions
 ---------------
-[Node.JS versions currently provided are](https://hub.docker.com/r/bucharestgold/centos7-s2i-nodejs/tags/):
+Node.JS versions [currently provided](https://hub.docker.com/r/bucharestgold/centos7-s2i-nodejs/tags/):
 
 <!-- versions.start -->
 * **`7.5.0`**: (7.5.0, 7, 7.5, current, latest)
@@ -35,7 +35,7 @@ The [`oc` command-line tool](https://github.com/openshift/origin/releases) can b
 
     oc new-app bucharestgold/centos7-s2i-nodejs:RELEASE~REPO_URL
 
-For example, you can run a build (including `npm install` steps), using my [`http-base`](http://github.com/bucharest-gold/http-base) example repo, and the `current` relase of nodejs with:
+For example, you can run a build (including `npm install` steps), using  [`http-base`](http://github.com/bucharest-gold/http-base) example repo, and the `current` relase of nodejs with:
 
     oc new-app bucharestgold/centos7-s2i-nodejs:current~http://github.com/bucharest-gold/http-base
 
@@ -53,6 +53,7 @@ Application developers can use the following environment variables to configure 
 NAME        | Description
 ------------|-------------
 NPM_RUN     | Select an alternate / custom runtime mode, defined in your `package.json` file's [`scripts`](https://docs.npmjs.com/misc/scripts) section (default: npm run "start")
+NPM_MIRROR  | Sets the npm registry URL
 NODE_ENV    | NodeJS runtime mode (default: "production")
 HTTP_PROXY  | use an npm proxy during assembly
 HTTPS_PROXY | use an npm proxy during assembly
