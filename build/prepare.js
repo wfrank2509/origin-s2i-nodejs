@@ -1,3 +1,10 @@
+/**
+ * This script is responsible for creating the target build directories
+ * and Dockerfiles for each version of Node.js that is supported, as
+ * defined in ../releases.json.
+ *
+ * Typically executed as a precursor to a build.
+ */
 'use strict';
 
 const path = require('path');

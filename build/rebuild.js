@@ -1,3 +1,17 @@
+/**
+ * This script is responsible for grabbing the latest Node.js version
+ * metadata and using that to update the following files.
+ *
+ * Makefile: contains the versions used for the default build (TODO)
+ * README.md: lists the versions this project currently supports
+ * releases.json: known metadata for the current releases
+ * centos7-s2i-nodejs.json: metadata to for importing into openshift
+ * image-streams.json: metadata to for importing into openshift
+ *
+ * This script is typically executed as a part of the automated build process
+ * and should not be run on its own.
+ */
+'use strict';
 const fs = require('fs');
 const path = require('path');
 const spawn = require('child_process').spawn;
@@ -17,6 +31,7 @@ const current = _.chain(_.keys(versions))
 console.log('Local versions', versions);
 console.log('Current version', current);
 
+// TODO: Update Makefile
 roi.get({ endpoint: 'https://nodejs.org/dist/index.json' })
    .then(response => findLatest(response.body))
    .then(writeFiles)
@@ -84,7 +99,7 @@ function findLatest (json) {
       const major = semver.major(version);
       const current = result[major] || versions[major];
       if (current && semver.gte(version, current.version)) {
-        result[major] = release;
+        result[version] = release;
       }
       return result;
     }, {});

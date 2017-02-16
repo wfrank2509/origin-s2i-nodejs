@@ -27,7 +27,6 @@
   ],
   "scripts": {
     "start": "make all",
-    "tag": "build/tag.sh",
     "pub": "build/publish.sh",
     "build": "make",
     "test": "make test"

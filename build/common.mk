@@ -36,7 +36,7 @@ onbuild: prepare
 
 .PHONY: tags
 tags:
-	$(script_env) npm run tag
+	$(script_env) node build/tag.js
 
 .PHONY: publish
 publish:

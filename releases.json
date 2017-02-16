@@ -1,8 +1,9 @@
 {
-  "4": {
-    "version": "v4.7.3",
+  "7.5.0": {
+    "version": "v7.5.0",
     "date": "2017-01-31",
     "files": [
+      "aix-ppc64",
       "headers",
       "linux-arm64",
       "linux-armv6l",
@@ -20,44 +21,15 @@
       "win-x86-exe",
       "win-x86-msi"
     ],
-    "npm": "2.15.11",
-    "v8": "4.5.103.43",
-    "uv": "1.9.1",
+    "npm": "4.1.2",
+    "v8": "5.4.500.48",
+    "uv": "1.10.2",
     "zlib": "1.2.8",
     "openssl": "1.0.2k",
-    "modules": "46",
-    "lts": "Argon"
-  },
-  "5": {
-    "version": "v5.12.0",
-    "date": "2016-06-23",
-    "files": [
-      "headers",
-      "linux-arm64",
-      "linux-armv6l",
-      "linux-armv7l",
-      "linux-ppc64le",
-      "linux-x64",
-      "linux-x86",
-      "osx-x64-pkg",
-      "osx-x64-tar",
-      "src",
-      "sunos-x64",
-      "sunos-x86",
-      "win-x64-exe",
-      "win-x64-msi",
-      "win-x86-exe",
-      "win-x86-msi"
-    ],
-    "npm": "3.8.6",
-    "v8": "4.6.85.32",
-    "uv": "1.8.0",
-    "zlib": "1.2.8",
-    "openssl": "1.0.2h",
-    "modules": "47",
+    "modules": "51",
     "lts": false
   },
-  "6": {
+  "6.9.5": {
     "version": "v6.9.5",
     "date": "2017-01-31",
     "files": [
@@ -87,11 +59,10 @@
     "modules": "48",
     "lts": "Boron"
   },
-  "7": {
-    "version": "v7.5.0",
-    "date": "2017-01-31",
+  "5.12.0": {
+    "version": "v5.12.0",
+    "date": "2016-06-23",
     "files": [
-      "aix-ppc64",
       "headers",
       "linux-arm64",
       "linux-armv6l",
@@ -109,12 +80,41 @@
       "win-x86-exe",
       "win-x86-msi"
     ],
-    "npm": "4.1.2",
-    "v8": "5.4.500.48",
-    "uv": "1.10.2",
+    "npm": "3.8.6",
+    "v8": "4.6.85.32",
+    "uv": "1.8.0",
+    "zlib": "1.2.8",
+    "openssl": "1.0.2h",
+    "modules": "47",
+    "lts": false
+  },
+  "4.7.3": {
+    "version": "v4.7.3",
+    "date": "2017-01-31",
+    "files": [
+      "headers",
+      "linux-arm64",
+      "linux-armv6l",
+      "linux-armv7l",
+      "linux-ppc64le",
+      "linux-x64",
+      "linux-x86",
+      "osx-x64-pkg",
+      "osx-x64-tar",
+      "src",
+      "sunos-x64",
+      "sunos-x86",
+      "win-x64-exe",
+      "win-x64-msi",
+      "win-x86-exe",
+      "win-x86-msi"
+    ],
+    "npm": "2.15.11",
+    "v8": "4.5.103.43",
+    "uv": "1.9.1",
     "zlib": "1.2.8",
     "openssl": "1.0.2k",
-    "modules": "51",
-    "lts": false
+    "modules": "46",
+    "lts": "Argon"
   }
 }
