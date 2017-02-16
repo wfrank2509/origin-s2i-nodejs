@@ -69,7 +69,7 @@ function processImageData (data) {
           tagImage(imageData.Id.split(':')[1], image, 'lts');
           tagImage(imageData.Id.split(':')[1], image, releases[version].lts);
         }
-        if (Number(version.split('.')[0]) === current) {
+        if (version === current) {
           tagImage(imageData.Id.split(':')[1], image, 'current');
           tagImage(imageData.Id.split(':')[1], image, 'latest');
         }
