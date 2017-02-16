@@ -12,8 +12,8 @@ const _ = require('underscore');
 
 const releases = require('../releases.json');
 const versions = _.keys(releases);
-const current = _.reduce(versions,
-                   (prev, cur) => Math.max(prev, Number(cur.split('.')[0])), 0);
+const current = String(_.reduce(versions,
+                   (prev, cur) => Math.max(prev, cur), 0));
 
 const baseImages = [
   `${process.env.NAMESPACE}/${process.env.OS}-${process.env.ONBUILD_IMAGE_NAME}`,
@@ -59,11 +59,12 @@ function tagImage (id, repo, tag) {
 function processImageData (data) {
   _.each(baseImages, (image) => {
     _.each(versions, (version) => {
-      const tag = `${image}:${version}`;
+      const fullVersionNumber = semver.clean(releases[version].version);
+      const tag = `${image}:${fullVersionNumber}`;
       const imageData = _.find(data,
         (repo) => _.contains(repo.RepoTags, tag));
       if (imageData) {
-        tagImage(imageData.Id.split(':')[1], image, semver.major(version));
+        tagImage(imageData.Id.split(':')[1], image, version);
         if (releases[version].lts) {
           tagImage(imageData.Id.split(':')[1], image, 'lts');
           tagImage(imageData.Id.split(':')[1], image, releases[version].lts);

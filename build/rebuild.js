@@ -24,18 +24,11 @@ const Promise = require('fidelity');
 const files = ['centos7-s2i-nodejs.json:nodejs',
                'image-streams.json:centos7-s2i-nodejs'];
 
-const versions = currentLocalVersions();
-const current = _.chain(_.keys(versions))
-                 .reduce((prev, cur) => Math.max(prev, cur)).value();
-
-console.log('Local versions', versions);
-console.log('Current version', current);
-
-// TODO: Update Makefile
 roi.get({ endpoint: 'https://nodejs.org/dist/index.json' })
    .then(response => findLatest(response.body))
    .then(writeFiles)
    .then(updateReadme)
+   .then(updateMakefile)
    .then(pullBase)
    .catch(console.error);
 
@@ -53,6 +46,22 @@ function pullBase () {
       }
     })
   });
+}
+
+function updateMakefile (versions) {
+  return new Promise((resolve, reject) => {
+    fs.readFile('Makefile', 'utf-8', (err, data) => {
+      if (err) return reject(err);
+      const regex = new RegExp(/(VERSIONS=)(.*)/);
+      const replacement = `$1${versions.join(' ')}`;
+      fs.writeFile('Makefile', data.replace(regex, replacement, 'utf-8'),
+        (err) => {
+          if (err) return reject(err);
+          resolve();
+        });
+    });
+  });
+
 }
 
 function updateReadme (versions) {
@@ -83,8 +92,7 @@ function updateReadme (versions) {
       fs.writeFile('README.md',
         txt.replace(re, versionString), 'utf-8', (err) => {
           if (err) return reject(err);
-          console.log(versionString);
-          resolve(versionString);
+          resolve(_.keys(newVersions));
       });
     });
   });
@@ -97,9 +105,9 @@ function findLatest (json) {
     (result, release) => {
       const version = semver.clean(release.version);
       const major = semver.major(version);
-      const current = result[major] || versions[major];
+      const current = result[major] || {version: "4.0.0"}; // only > 4
       if (current && semver.gte(version, current.version)) {
-        result[version] = release;
+        result[major] = release;
       }
       return result;
     }, {});
@@ -121,6 +129,8 @@ function writeFiles (releases) {
 }
 
 function imageStream (releases, name) {
+  const current = _.reduce(_.keys(releases), (prev, cur) => Math.max(prev, cur));
+
   const data = {
         kind: 'ImageStream',
         apiVersion: 'v1',
@@ -186,18 +196,6 @@ function annotationsFor (name, version) {
             supports: `nodejs:${major}, nodejs:${minor}, nodejs`,
             sampleRepo: 'https://github.com/bucharest-gold/http-base.git'
           };
-}
-
-// creates an object that maps a major version to the latest
-// release of that version, for each of process.env.VERSIONS
-function currentLocalVersions () {
-  const list = process.env.VERSIONS ? process.env.VERSIONS.split(' ') : [];
-  return _.chain(list)
-    .map(semver.major)
-    .reduce((result, v) => {
-      result[v] = { version: list.shift() };
-      return result;
-    }, {}).value();
 }
 
 function majorMinor (version) {
