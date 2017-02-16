@@ -1,10 +1,12 @@
+'use strict';
+
 const path = require('path');
 const fs = require('fs');
 const _ = require('underscore');
+const releases = require('../releases.json');
 
 fs.mkdir('target', (err) => {
   if (err && err.code !== 'EEXIST') return console.log(e);
-  const releases = JSON.parse(fs.readFileSync('releases.json'));
   process('Dockerfile', releases);
   process('Dockerfile.onbuild', releases);
 });
