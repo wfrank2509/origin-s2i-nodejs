@@ -38,6 +38,11 @@ run_s2i_build() {
   s2i build ${s2i_args} file://${test_dir}/test-app ${IMAGE_TAG} ${IMAGE_NAME}-testapp
 }
 
+run_s2i_build_incremental() {
+  echo "Running s2i build ${s2i_args} ${test_dir} ${IMAGE_TAG} ${IMAGE_NAME} --incremental=true --pull-policy=never"
+  s2i build ${s2i_args} file://${test_dir}/test-app ${IMAGE_TAG} ${IMAGE_NAME}-testapp --incremental=true --pull-policy=never
+}
+
 prepare() {
   if ! image_exists ${IMAGE_TAG}; then
     echo "ERROR: The image ${IMAGE_TAG} must exist before this script is executed."
@@ -192,6 +197,9 @@ test_node_env_and_environment_variables() {
 # 'restore-artifacts' scripts are working properly
 prepare
 run_s2i_build
+check_result $?
+
+run_s2i_build_incremental
 check_result $?
 
 # Verify the 'usage' script is working properly when running the base image with 's2i usage ...'
