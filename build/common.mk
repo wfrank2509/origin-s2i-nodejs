@@ -1,6 +1,6 @@
 SKIP_SQUASH?=0
 
-build = hack/build.sh
+build = build/build.sh
 
 ifeq ($(TARGET),fedora)
 	OS := fedora
@@ -18,20 +18,25 @@ script_env = \
 	VERSION="$(VERSION)"
 
 .PHONY: build
-build:
+build: prepare
 	$(script_env) $(build)
+
+.PHONY: prepare
+prepare:
+	npm install
+	node build/prepare.js
 
 .PHONY: all
 all:
 	make rebuild && make test && make build && make onbuild && make tags && make publish
 
 .PHONY: onbuild
-onbuild:
+onbuild: prepare
 	$(script_env) ONBUILD=true $(build)
 
 .PHONY: tags
 tags:
-	$(script_env) npm run tag
+	$(script_env) node build/tag.js
 
 .PHONY: publish
 publish:
@@ -39,12 +44,12 @@ publish:
 
 .PHONY: rebuild
 rebuild:
-	$(script_env) npm run rebuild
+	$(script_env) node build/rebuild.js
 
 .PHONY: test
-test:
+test: prepare
 	$(script_env) TAG_ON_SUCCESS=$(TAG_ON_SUCCESS) TEST_MODE=true $(build)
 
 .PHONY: clean
 clean:
-	npm run clean
+	docker rmi -f `docker images |tr -s ' ' | grep -e 'centos7-s2i-nodejs\|centos7-s2i-nodejs-candidate\|centos7-nodejs\|<none>' | cut -d' ' -s -f3`
