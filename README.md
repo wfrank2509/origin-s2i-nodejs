@@ -17,10 +17,10 @@ Versions
 Node.JS versions [currently provided](https://hub.docker.com/r/bucharestgold/centos7-s2i-nodejs/tags/):
 
 <!-- versions.start -->
-* **`7.5.0`**: (7.5.0, 7, 7.5, current, latest)
-* **`6.9.5`**: (6.9.5, 6, 6.9, lts, Boron)
+* **`7.6.0`**: (7.6.0, 7, 7.6, current, latest)
+* **`6.10.0`**: (6.10.0, 6, 6.10, lts, Boron)
 * **`5.12.0`**: (5.12.0, 5, 5.12)
-* **`4.7.3`**: (4.7.3, 4, 4.7, lts, Argon)
+* **`4.8.0`**: (4.8.0, 4, 4.8, lts, Argon)
 <!-- versions.end -->
 
 Usage
