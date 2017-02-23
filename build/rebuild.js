@@ -136,7 +136,7 @@ function imageStream (releases, name) {
         apiVersion: 'v1',
         metadata: {
           name: name,
-          creationTimestamp: `${new Date()}`
+          creationTimestamp: `${new Date().toISOString()}`
         },
         spec: {
           tags: []
