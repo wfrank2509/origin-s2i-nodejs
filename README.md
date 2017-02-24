@@ -83,7 +83,7 @@ The [Source2Image cli tools](https://github.com/openshift/source-to-image/releas
 
 This example will produce a new docker image named `webapp`:
 
-    s2i build https://github.com/bucharest-gold/http-base bucharestgold/centos7-s2i-nodejs:current webapp
+    s2i build https://github.com/bucharest-gold/s2i-nodejs bucharestgold/centos7-s2i-nodejs:current webapp
 
 Installation
 ---------------
