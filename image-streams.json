@@ -3,7 +3,7 @@
   "apiVersion": "v1",
   "metadata": {
     "name": "centos7-s2i-nodejs",
-    "creationTimestamp": "2017-02-22T21:53:26.930Z"
+    "creationTimestamp": "2017-02-24T15:12:44.933Z"
   },
   "spec": {
     "tags": [
@@ -14,7 +14,7 @@
           "iconClass": "icon-nodejs",
           "tags": "builder, node, nodejs, nodejs-4.8.0, nodejs-4.8.0",
           "supports": "nodejs:4, nodejs:4.8, nodejs",
-          "sampleRepo": "https://github.com/bucharest-gold/http-base.git"
+          "sampleRepo": "https://github.com/bucharest-gold/s2i-nodejs.git"
         },
         "from": {
           "kind": "DockerImage",
@@ -28,7 +28,7 @@
           "iconClass": "icon-nodejs",
           "tags": "builder, node, nodejs, nodejs-4.8.0, nodejs-4",
           "supports": "nodejs:4, nodejs:4.8, nodejs",
-          "sampleRepo": "https://github.com/bucharest-gold/http-base.git"
+          "sampleRepo": "https://github.com/bucharest-gold/s2i-nodejs.git"
         },
         "from": {
           "kind": "ImageStreamTag",
@@ -42,7 +42,7 @@
           "iconClass": "icon-nodejs",
           "tags": "builder, node, nodejs, nodejs-4.8.0, nodejs-4.8",
           "supports": "nodejs:4, nodejs:4.8, nodejs",
-          "sampleRepo": "https://github.com/bucharest-gold/http-base.git"
+          "sampleRepo": "https://github.com/bucharest-gold/s2i-nodejs.git"
         },
         "from": {
           "kind": "ImageStreamTag",
@@ -56,7 +56,7 @@
           "iconClass": "icon-nodejs",
           "tags": "builder, node, nodejs, nodejs-4.8.0, nodejs-lts",
           "supports": "nodejs:4, nodejs:4.8, nodejs",
-          "sampleRepo": "https://github.com/bucharest-gold/http-base.git"
+          "sampleRepo": "https://github.com/bucharest-gold/s2i-nodejs.git"
         },
         "from": {
           "kind": "ImageStreamTag",
@@ -70,7 +70,7 @@
           "iconClass": "icon-nodejs",
           "tags": "builder, node, nodejs, nodejs-4.8.0, nodejs-Argon",
           "supports": "nodejs:4, nodejs:4.8, nodejs",
-          "sampleRepo": "https://github.com/bucharest-gold/http-base.git"
+          "sampleRepo": "https://github.com/bucharest-gold/s2i-nodejs.git"
         },
         "from": {
           "kind": "ImageStreamTag",
@@ -84,7 +84,7 @@
           "iconClass": "icon-nodejs",
           "tags": "builder, node, nodejs, nodejs-5.12.0, nodejs-5.12.0",
           "supports": "nodejs:5, nodejs:5.12, nodejs",
-          "sampleRepo": "https://github.com/bucharest-gold/http-base.git"
+          "sampleRepo": "https://github.com/bucharest-gold/s2i-nodejs.git"
         },
         "from": {
           "kind": "DockerImage",
@@ -98,7 +98,7 @@
           "iconClass": "icon-nodejs",
           "tags": "builder, node, nodejs, nodejs-5.12.0, nodejs-5",
           "supports": "nodejs:5, nodejs:5.12, nodejs",
-          "sampleRepo": "https://github.com/bucharest-gold/http-base.git"
+          "sampleRepo": "https://github.com/bucharest-gold/s2i-nodejs.git"
         },
         "from": {
           "kind": "ImageStreamTag",
@@ -112,7 +112,7 @@
           "iconClass": "icon-nodejs",
           "tags": "builder, node, nodejs, nodejs-5.12.0, nodejs-5.12",
           "supports": "nodejs:5, nodejs:5.12, nodejs",
-          "sampleRepo": "https://github.com/bucharest-gold/http-base.git"
+          "sampleRepo": "https://github.com/bucharest-gold/s2i-nodejs.git"
         },
         "from": {
           "kind": "ImageStreamTag",
@@ -126,7 +126,7 @@
           "iconClass": "icon-nodejs",
           "tags": "builder, node, nodejs, nodejs-6.10.0, nodejs-6.10.0",
           "supports": "nodejs:6, nodejs:6.10, nodejs",
-          "sampleRepo": "https://github.com/bucharest-gold/http-base.git"
+          "sampleRepo": "https://github.com/bucharest-gold/s2i-nodejs.git"
         },
         "from": {
           "kind": "DockerImage",
@@ -140,7 +140,7 @@
           "iconClass": "icon-nodejs",
           "tags": "builder, node, nodejs, nodejs-6.10.0, nodejs-6",
           "supports": "nodejs:6, nodejs:6.10, nodejs",
-          "sampleRepo": "https://github.com/bucharest-gold/http-base.git"
+          "sampleRepo": "https://github.com/bucharest-gold/s2i-nodejs.git"
         },
         "from": {
           "kind": "ImageStreamTag",
@@ -154,7 +154,7 @@
           "iconClass": "icon-nodejs",
           "tags": "builder, node, nodejs, nodejs-6.10.0, nodejs-6.10",
           "supports": "nodejs:6, nodejs:6.10, nodejs",
-          "sampleRepo": "https://github.com/bucharest-gold/http-base.git"
+          "sampleRepo": "https://github.com/bucharest-gold/s2i-nodejs.git"
         },
         "from": {
           "kind": "ImageStreamTag",
@@ -168,7 +168,7 @@
           "iconClass": "icon-nodejs",
           "tags": "builder, node, nodejs, nodejs-6.10.0, nodejs-lts",
           "supports": "nodejs:6, nodejs:6.10, nodejs",
-          "sampleRepo": "https://github.com/bucharest-gold/http-base.git"
+          "sampleRepo": "https://github.com/bucharest-gold/s2i-nodejs.git"
         },
         "from": {
           "kind": "ImageStreamTag",
@@ -182,7 +182,7 @@
           "iconClass": "icon-nodejs",
           "tags": "builder, node, nodejs, nodejs-6.10.0, nodejs-Boron",
           "supports": "nodejs:6, nodejs:6.10, nodejs",
-          "sampleRepo": "https://github.com/bucharest-gold/http-base.git"
+          "sampleRepo": "https://github.com/bucharest-gold/s2i-nodejs.git"
         },
         "from": {
           "kind": "ImageStreamTag",
@@ -196,7 +196,7 @@
           "iconClass": "icon-nodejs",
           "tags": "builder, node, nodejs, nodejs-7.6.0, nodejs-7.6.0",
           "supports": "nodejs:7, nodejs:7.6, nodejs",
-          "sampleRepo": "https://github.com/bucharest-gold/http-base.git"
+          "sampleRepo": "https://github.com/bucharest-gold/s2i-nodejs.git"
         },
         "from": {
           "kind": "DockerImage",
@@ -210,7 +210,7 @@
           "iconClass": "icon-nodejs",
           "tags": "builder, node, nodejs, nodejs-7.6.0, nodejs-7",
           "supports": "nodejs:7, nodejs:7.6, nodejs",
-          "sampleRepo": "https://github.com/bucharest-gold/http-base.git"
+          "sampleRepo": "https://github.com/bucharest-gold/s2i-nodejs.git"
         },
         "from": {
           "kind": "ImageStreamTag",
@@ -224,7 +224,7 @@
           "iconClass": "icon-nodejs",
           "tags": "builder, node, nodejs, nodejs-7.6.0, nodejs-7.6",
           "supports": "nodejs:7, nodejs:7.6, nodejs",
-          "sampleRepo": "https://github.com/bucharest-gold/http-base.git"
+          "sampleRepo": "https://github.com/bucharest-gold/s2i-nodejs.git"
         },
         "from": {
           "kind": "ImageStreamTag",
@@ -238,7 +238,7 @@
           "iconClass": "icon-nodejs",
           "tags": "builder, node, nodejs, nodejs-7.6.0, nodejs-current",
           "supports": "nodejs:7, nodejs:7.6, nodejs",
-          "sampleRepo": "https://github.com/bucharest-gold/http-base.git"
+          "sampleRepo": "https://github.com/bucharest-gold/s2i-nodejs.git"
         },
         "from": {
           "kind": "ImageStreamTag",
@@ -252,7 +252,7 @@
           "iconClass": "icon-nodejs",
           "tags": "builder, node, nodejs, nodejs-7.6.0, nodejs-latest",
           "supports": "nodejs:7, nodejs:7.6, nodejs",
-          "sampleRepo": "https://github.com/bucharest-gold/http-base.git"
+          "sampleRepo": "https://github.com/bucharest-gold/s2i-nodejs.git"
         },
         "from": {
           "kind": "ImageStreamTag",

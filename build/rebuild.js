@@ -194,7 +194,7 @@ function annotationsFor (name, version) {
             iconClass: 'icon-nodejs',
             tags: `builder, node, nodejs, nodejs-${version}, nodejs-${name}`,
             supports: `nodejs:${major}, nodejs:${minor}, nodejs`,
-            sampleRepo: 'https://github.com/bucharest-gold/http-base.git'
+            sampleRepo: 'https://github.com/bucharest-gold/s2i-nodejs.git'
           };
 }
 
