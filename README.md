@@ -30,7 +30,7 @@ OpenShift allows you to quickly start a build using the web console, or the CLI.
 
 The [`oc` command-line tool](https://github.com/openshift/origin/releases) can be used to start a build, layering your desired nodejs `REPO_URL` sources into a centos7 image with your selected `RELEASE` of Node.js via the following command format:
 
-    oc new-app bucharestgold/centos7-s2i-nodejs:RELEASE~REPO_URL
+    oc new-app wolfgangfrank/centos7-s2i-nodejs:RELEASE~REPO_URL
 
 For example, you can run a build (including `npm install` steps), using  [`http-base`](http://github.com/bucharest-gold/http-base) example repo, and the `current` relase of nodejs with:
 
@@ -79,11 +79,11 @@ If you have deployed the container to OpenShift, you can use [oc rsync](https://
 Builds
 ------
 
-The [Source2Image cli tools](https://github.com/openshift/source-to-image/releases) are available as a standalone project, allowing you to [run builds outside of OpenShift](https://github.com/bucharest-gold/origin-s2i-nodejs/blob/master/nodejs.org/README.md#usage).
+The [Source2Image cli tools](https://github.com/openshift/source-to-image/releases) are available as a standalone project, allowing you to [run builds outside of OpenShift](https://github.com/wfrank2509/origin-s2i-nodejs/blob/master/nodejs.org/README.md#usage).
 
 This example will produce a new docker image named `webapp`:
 
-    s2i build https://github.com/bucharest-gold/s2i-nodejs bucharestgold/centos7-s2i-nodejs:current webapp
+    s2i build https://github.com/wfrank2509/s2i-nodejs bucharestgold/centos7-s2i-nodejs:current webapp
 
 Installation
 ---------------
