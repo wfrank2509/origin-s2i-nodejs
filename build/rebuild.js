@@ -22,185 +22,184 @@ const _ = require('underscore');
 const Promise = require('fidelity');
 
 const files = ['centos7-s2i-nodejs.json:nodejs',
-               'image-streams.json:centos7-s2i-nodejs'];
+    'image-streams.json:centos7-s2i-nodejs'
+];
 
 roi.get({ endpoint: 'https://nodejs.org/dist/index.json' })
-   .then(response => findLatest(response.body))
-   .then(writeFiles)
-   .then(updateReadme)
-   .then(updateMakefile)
-   .then(pullBase)
-   .catch(console.error);
+    .then(response => findLatest(response.body))
+    .then(writeFiles)
+    .then(updateReadme)
+    .then(updateMakefile)
+    .then(pullBase)
+    .catch(console.error);
 
-function pullBase () {
-  return new Promise((resolve, reject) => {
-    const docker = spawn('docker',
-                         ['pull', 'openshift/base-centos7'],
-                         { stdio: 'inherit' });
-    docker.on('error', reject);
-    docker.on('close', (code) => {
-      if (code !== 0) {
-        reject(`docker pull failed with ${code}`);
-      } else {
-        resolve('done');
-      }
-    })
-  });
+function pullBase() {
+    return new Promise((resolve, reject) => {
+        const docker = spawn('docker', ['pull', 'openshift/base-centos7'], { stdio: 'inherit' });
+        docker.on('error', reject);
+        docker.on('close', (code) => {
+            if (code !== 0) {
+                reject(`docker pull failed with ${code}`);
+            } else {
+                resolve('done');
+            }
+        })
+    });
 }
 
-function updateMakefile (versions) {
-  return new Promise((resolve, reject) => {
-    fs.readFile('Makefile', 'utf-8', (err, data) => {
-      if (err) return reject(err);
-      const regex = new RegExp(/(VERSIONS=)(.*)/);
-      const replacement = `$1${versions.join(' ')}`;
-      fs.writeFile('Makefile', data.replace(regex, replacement, 'utf-8'),
-        (err) => {
-          if (err) return reject(err);
-          resolve();
+function updateMakefile(versions) {
+    return new Promise((resolve, reject) => {
+        fs.readFile('Makefile', 'utf-8', (err, data) => {
+            if (err) return reject(err);
+            const regex = new RegExp(/(VERSIONS=)(.*)/);
+            const replacement = `$1${versions.join(' ')}`;
+            fs.writeFile('Makefile', data.replace(regex, replacement, 'utf-8'),
+                (err) => {
+                    if (err) return reject(err);
+                    resolve();
+                });
         });
     });
-  });
 
 }
 
-function updateReadme (versions) {
-  return new Promise((resolve, reject) => {
-    fs.readFile('README.md', 'utf-8', (err, txt) => {
-      if (err) return reject(err);
+function updateReadme(versions) {
+    return new Promise((resolve, reject) => {
+        fs.readFile('README.md', 'utf-8', (err, txt) => {
+            if (err) return reject(err);
 
-      // get a list of our images mapped to all of their tags
-      const newVersions = _.reduce(versions.spec.tags, (result, tag) => {
-        if (tag.from.name.indexOf(':') === -1) {
-          const labels = result[tag.from.name] || [];
-          labels.push(tag.name);
-          result[tag.from.name] = labels;
-        }
-        return result;
-      }, {});
+            // get a list of our images mapped to all of their tags
+            const newVersions = _.reduce(versions.spec.tags, (result, tag) => {
+                if (tag.from.name.indexOf(':') === -1) {
+                    const labels = result[tag.from.name] || [];
+                    labels.push(tag.name);
+                    result[tag.from.name] = labels;
+                }
+                return result;
+            }, {});
 
-      // format the result as a friendly string
-      let versionString = '<!-- versions.start -->\n';
-      _.each(_.keys(newVersions).reverse(), (ver) => {
-        versionString += `* **\`${ver}\`**: (${ver}, ${newVersions[ver].join(', ')})\n`;
-      });
-      versionString += '<!-- versions.end -->'
+            // format the result as a friendly string
+            let versionString = '<!-- versions.start -->\n';
+            _.each(_.keys(newVersions).reverse(), (ver) => {
+                versionString += `* **\`${ver}\`**: (${ver}, ${newVersions[ver].join(', ')})\n`;
+            });
+            versionString += '<!-- versions.end -->'
 
-      // Replace the existing version string in README.md
-      const re = new RegExp(
-        /<!-- versions\.start -->\s(\*.+\s)+<!-- versions\.end -->/mg);
-      fs.writeFile('README.md',
-        txt.replace(re, versionString), 'utf-8', (err) => {
-          if (err) return reject(err);
-          resolve(_.keys(newVersions));
-      });
+            // Replace the existing version string in README.md
+            const re = new RegExp(
+                /<!-- versions\.start -->\s(\*.+\s)+<!-- versions\.end -->/mg);
+            fs.writeFile('README.md',
+                txt.replace(re, versionString), 'utf-8', (err) => {
+                    if (err) return reject(err);
+                    resolve(_.keys(newVersions));
+                });
+        });
     });
-  });
 }
 
 // creates an object that maps a major version to the latest
 // release of that version found in `json`
-function findLatest (json) {
-  return _.reduce(JSON.parse(json),
-    (result, release) => {
-      const version = semver.clean(release.version);
-      const major = semver.major(version);
-      const current = result[major] || {version: "4.0.0"}; // only > 4
-      if (current && semver.gte(version, current.version)) {
-        result[major] = release;
-      }
-      return result;
-    }, {});
+function findLatest(json) {
+    return _.reduce(JSON.parse(json),
+        (result, release) => {
+            const version = semver.clean(release.version);
+            const major = semver.major(version);
+            const current = result[major] || { version: "4.0.0" }; // only > 4
+            if (current && semver.gte(version, current.version)) {
+                result[major] = release;
+            }
+            return result;
+        }, {});
 }
 
-function writeFiles (releases) {
-  // TODO: Only do this if there are any changes
-  return new Promise((resolve, reject) => {
-    fs.writeFile('releases.json', JSON.stringify(releases, null, 2),
-      (err) => err ? reject(err) : undefined);
-    _.each(files, (f) => {
-      const [file, name] = f.split(':');
-      console.log('Rewriting', file, name, '...');
-      const data = imageStream(releases, name);
-      fs.writeFile(file, JSON.stringify(data, null, 2),
-        (err) => err ? reject(err) : resolve(data));
+function writeFiles(releases) {
+    // TODO: Only do this if there are any changes
+    return new Promise((resolve, reject) => {
+        fs.writeFile('releases.json', JSON.stringify(releases, null, 2),
+            (err) => err ? reject(err) : undefined);
+        _.each(files, (f) => {
+            const [file, name] = f.split(':');
+            console.log('Rewriting', file, name, '...');
+            const data = imageStream(releases, name);
+            fs.writeFile(file, JSON.stringify(data, null, 2),
+                (err) => err ? reject(err) : resolve(data));
+        });
     });
-  });
 }
 
-function imageStream (releases, name) {
-  const current = _.reduce(_.keys(releases), (prev, cur) => Math.max(prev, cur));
+function imageStream(releases, name) {
+    const current = _.reduce(_.keys(releases), (prev, cur) => Math.max(prev, cur));
 
-  const data = {
+    const data = {
         kind: 'ImageStream',
         apiVersion: 'v1',
         metadata: {
-          name: name,
-          creationTimestamp: `${new Date().toISOString()}`
+            name: name,
+            creationTimestamp: `${new Date().toISOString()}`
         },
         spec: {
-          tags: []
+            tags: []
         }
-      };
+    };
     _.each(releases, (r) => {
-      const version = semver.clean(r.version);
-      const { major, minor } = majorMinor(version);
+        const version = semver.clean(r.version);
+        const { major, minor } = majorMinor(version);
 
-      data.spec.tags.push(dockerImageTag(version));
-      data.spec.tags.push(imageStreamTag(major, version));
-      data.spec.tags.push(imageStreamTag(minor, version));
+        data.spec.tags.push(dockerImageTag(version));
+        data.spec.tags.push(imageStreamTag(major, version));
+        data.spec.tags.push(imageStreamTag(minor, version));
 
-      // if this node version is lts, tag it as such
-      if (r.lts) {
-        data.spec.tags.push(imageStreamTag('lts', version));
-        data.spec.tags.push(imageStreamTag(r.lts, version));
-      }
+        // if this node version is lts, tag it as such
+        if (r.lts) {
+            data.spec.tags.push(imageStreamTag('lts', version));
+            data.spec.tags.push(imageStreamTag(r.lts, version));
+        }
 
-      // if this is the current/latest version of node, tag it so
-      if (major === current) {
-        data.spec.tags.push(imageStreamTag('current', version));
-        data.spec.tags.push(imageStreamTag('latest', version));
-      }
+        // if this is the current/latest version of node, tag it so
+        if (major === current) {
+            data.spec.tags.push(imageStreamTag('current', version));
+            data.spec.tags.push(imageStreamTag('latest', version));
+        }
     });
     return data;
 }
 
-function dockerImageTag (version) {
-  return {
-    name: version,
-    annotations: annotationsFor(version, version),
-    from: {
+function dockerImageTag(version) {
+    return {
+        name: version,
+        annotations: annotationsFor(version, version),
+        from: {
             kind: 'DockerImage',
-            name: `bucharestgold/centos7-s2i-nodejs:${version}`
-          }
-  };
+            name: `wolfgangfrank/centos7-s2i-nodejs:${version}`
+        }
+    };
 }
 
-function imageStreamTag (name, version) {
-  return {
-    name: `${name}`, // force string
-    annotations: annotationsFor(name, version),
-    from: {
+function imageStreamTag(name, version) {
+    return {
+        name: `${name}`, // force string
+        annotations: annotationsFor(name, version),
+        from: {
             kind: 'ImageStreamTag',
             name: version
-          }
-  };
+        }
+    };
 }
 
-function annotationsFor (name, version) {
-  const { major, minor } = majorMinor(version);
-  return {
-            description: 'Build and run Node.js applications',
-            iconClass: 'icon-nodejs',
-            tags: `builder, node, nodejs, nodejs-${version}, nodejs-${name}`,
-            supports: `nodejs:${major}, nodejs:${minor}, nodejs`,
-            sampleRepo: 'https://github.com/bucharest-gold/s2i-nodejs.git'
-          };
+function annotationsFor(name, version) {
+    const { major, minor } = majorMinor(version);
+    return {
+        description: 'Build and run Node.js applications',
+        iconClass: 'icon-nodejs',
+        tags: `builder, node, nodejs, nodejs-${version}, nodejs-${name}`,
+        supports: `nodejs:${major}, nodejs:${minor}, nodejs`,
+        sampleRepo: 'https://github.com/wfrank2509/s2i-nodejs.git'
+    };
 }
 
-function majorMinor (version) {
-  return {
-    major: semver.major(version),
-    minor: version.split('.').slice(0,2).join('.')
-  };
+function majorMinor(version) {
+    return {
+        major: semver.major(version),
+        minor: version.split('.').slice(0, 2).join('.')
+    };
 }

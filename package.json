@@ -1,38 +1,39 @@
 {
-  "name": "centos7-nodejs",
-  "homepage": "https://github.com/bucharest-gold/origin-s2i-nodejs",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/bucharest-gold/origin-s2i-nodejs.git"
-  },
-  "version": "0.1.0",
-  "description": "NodeJS images for OpenShift / Kubernetes, based on CentOS",
-  "devDependencies": {
-    "roi": "~0.14.1",
-    "semver": "~5.1.0",
-    "underscore": "~1.8.3"
-  },
-  "keywords": [
-    "openshift",
-    "aws",
-    "docker",
-    "ansible",
-    "kube",
-    "kubernetes",
-    "centos"
-  ],
-  "contributors": [
-    "Ryan Jarvinen (http://ryanjarvinen.com)",
-    "Lance Ball <lball@redhat.com> (http://lanceball.com)"
-  ],
-  "scripts": {
-    "start": "make all",
-    "pub": "build/publish.sh",
-    "build": "make",
-    "test": "make test"
-  },
-  "license": "Apache-2.0",
-  "bugs": {
-    "url": "https://github.com/bucharest-gold/origin-s2i-nodejs/issues"
-  }
+    "name": "centos7-nodejs",
+    "homepage": "https://github.com/wfrank2509/origin-s2i-nodejs",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/wfrank2509/origin-s2i-nodejs.git"
+    },
+    "version": "0.1.0",
+    "description": "NodeJS images for OpenShift / Kubernetes, based on CentOS",
+    "devDependencies": {
+        "roi": "~0.14.1",
+        "semver": "~5.1.0",
+        "underscore": "~1.8.3"
+    },
+    "keywords": [
+        "openshift",
+        "aws",
+        "docker",
+        "ansible",
+        "kube",
+        "kubernetes",
+        "centos"
+    ],
+    "contributors": [
+        "Helio Frota (https://helio-frota.github.io)",
+        "Ryan Jarvinen (http://ryanjarvinen.com)",
+        "Lance Ball <lball@redhat.com> (http://lanceball.com)"
+    ],
+    "scripts": {
+        "start": "make all",
+        "pub": "build/publish.sh",
+        "build": "make",
+        "test": "make test"
+    },
+    "license": "Apache-2.0",
+    "bugs": {
+        "url": "https://github.com/wfrank2509/origin-s2i-nodejs/issues"
+    }
 }

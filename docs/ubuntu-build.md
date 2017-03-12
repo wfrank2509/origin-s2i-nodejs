@@ -56,7 +56,7 @@ source .bashrc
 ### Run `make test`
 
 ```bash
-git clone git@github.com:bucharest-gold/origin-s2i-nodejs.git
+git clone git@github.com:wfrank2509/origin-s2i-nodejs.git
 cd origin-s2i-nodejs
 make test
 ```
