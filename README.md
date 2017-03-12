@@ -5,16 +5,16 @@ This repository contains sources for an [s2i](https://github.com/openshift/sourc
 
 If you are interested in developing against SCL-based Node.js releases, try [sti-nodejs](https://github.com/openshift/sti-nodejs).
 
-[![docker hub stats](http://dockeri.co/image/bucharestgold/centos7-s2i-nodejs)](https://hub.docker.com/r/bucharestgold/centos7-s2i-nodejs/)
+[![docker hub stats](http://dockeri.co/image/wolfgangfrank/centos7-s2i-nodejs)](https://hub.docker.com/r/wolfgangfrank/centos7-s2i-nodejs/)
 
-[![](https://images.microbadger.com/badges/image/bucharestgold/centos7-s2i-nodejs.svg)](https://microbadger.com/images/bucharestgold/centos7-s2i-nodejs "Get your own image badge on microbadger.com")
+[![](https://images.microbadger.com/badges/image/wolfgangfrank/centos7-s2i-nodejs.svg)](https://microbadger.com/images/wolfgangfrank/centos7-s2i-nodejs "Get your own image badge on microbadger.com")
 
 For more information about using these images with OpenShift, please see the
 official [OpenShift Documentation](https://docs.openshift.org/latest/using_images/s2i_images/nodejs.html).
 
 Versions
 ---------------
-Node.JS versions [currently provided](https://hub.docker.com/r/bucharestgold/centos7-s2i-nodejs/tags/):
+Node.JS versions [currently provided](https://hub.docker.com/r/wolfgangfrank/centos7-s2i-nodejs/tags/):
 
 <!-- versions.start -->
 * **`7.7.1`**: (7.7.1, 7, 7.7, current, latest)
@@ -34,11 +34,11 @@ The [`oc` command-line tool](https://github.com/openshift/origin/releases) can b
 
 For example, you can run a build (including `npm install` steps), using  [`http-base`](http://github.com/bucharest-gold/http-base) example repo, and the `current` relase of nodejs with:
 
-    oc new-app bucharestgold/centos7-s2i-nodejs:current~http://github.com/bucharest-gold/http-base
+    oc new-app wolfgangfrank/centos7-s2i-nodejs:current~http://github.com/bucharest-gold/http-base
 
 Or, to run the latest `lts` release:
 
-    oc new-app bucharestgold/centos7-s2i-nodejs:lts~http://github.com/bucharest-gold/http-base
+    oc new-app wolfgangfrank/centos7-s2i-nodejs:lts~http://github.com/bucharest-gold/http-base
 
 You can try using any of the available tagged Node.js releases, and your own repo sources - as long as your application source will init correctly with `npm start`, and listen on port 8080.
 
@@ -93,11 +93,11 @@ There are several ways to make this base image and the full list of tagged Node.
 #### For OpenShift Online Next Gen Developer Preview
 Those without admin privileges can install the latest Node.js releases within their project context with:
 
-    oc create -f https://raw.githubusercontent.com/bucharest-gold/origin-s2i-nodejs/master/image-streams.json
+    oc create -f https://raw.githubusercontent.com/wfrank2509/origin-s2i-nodejs/master/image-streams.json
 
 To ensure that each of the latest Node.js release tags are available and displayed correctly in the web UI, try upgrading / reinstalling the image stream:
 
-    oc delete is/centos7-s2i-nodejs ; oc create -f https://raw.githubusercontent.com/bucharest-gold/origin-s2i-nodejs/master/image-streams.json
+    oc delete is/centos7-s2i-nodejs ; oc create -f https://raw.githubusercontent.com/wfrank2509/origin-s2i-nodejs/master/image-streams.json
 
 If you've (automatically) imported this image using the [`oc new-app` example command](#usage), then you may need to clear the auto-imported image stream reference and re-install it.
 
@@ -105,17 +105,17 @@ If you've (automatically) imported this image using the [`oc new-app` example co
 
 Administrators can make these Node.js releases available globally (visible in all projects, by all users) by adding them to the `openshift` namespace:
 
-    oc create -n openshift -f https://raw.githubusercontent.com/bucharest-gold/origin-s2i-nodejs/master/image-streams.json
+    oc create -n openshift -f https://raw.githubusercontent.com/wfrank2509/origin-s2i-nodejs/master/image-streams.json
 
 To replace [the default SCL-packaged `openshift/nodejs` image](https://hub.docker.com/r/openshift/nodejs-010-centos7/) (admin access required), run:
 
-    oc delete is/nodejs -n openshift ; oc create -n openshift -f https://raw.githubusercontent.com/bucharest-gold/origin-s2i-nodejs/master/centos7-s2i-nodejs.json
+    oc delete is/nodejs -n openshift ; oc create -n openshift -f https://raw.githubusercontent.com/wfrank2509/origin-s2i-nodejs/master/centos7-s2i-nodejs.json
 
 Building your own Builder images
 --------------------------------
 Clone a copy of this repo to fetch the build sources:
 
-    $ git clone https://github.com/bucharest-gold/origin-s2i-nodejs.git
+    $ git clone https://github.com/wfrank2509/origin-s2i-nodejs.git
     $ cd origin-s2i-nodejs
 
 To build your own S2I Node.JS builder images from scratch, run:
@@ -127,7 +127,7 @@ You can also build a specific release, or try building the alternate `ONBUILD` v
 
     $ ONBUILD=true make VERSION=6.3.1
 
-The `ONBUILD` base images are available at https://hub.docker.com/r/bucharestgold/centos7-nodejs
+The `ONBUILD` base images are available at https://hub.docker.com/r/wolfgangfrank/centos7-nodejs
 
 [Instructions for build own builder images on Ubuntu 1604](docs/ubuntu-build.md)
 
